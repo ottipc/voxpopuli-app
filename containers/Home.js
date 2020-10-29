@@ -141,7 +141,14 @@ class Home extends Component {
                         ref={swiper => (this.swiper = swiper)}
                     >
                         {this.state.voteData.map((item, index) => (
-                            <Card key={index}>
+                            <Card
+                                onSwipedLeft={() => {
+                                    this.persistVote(this.state.user_id, item.id,false)
+                                }}
+                                onSwipedRight={() => {
+                                    this.persistVote(this.state.user_id, item.id,true)
+                                }}
+                                key={index}>
                                 <CardItem
                                     text={item.ruling_party_leader}
                                     detail={item.political_position}
