@@ -36,8 +36,8 @@ const myApiService = {
             )
         }).then((response) => response.json())
             .then((json) => {
-                console.log("&&&&&&&&&&&&&&&&RESPONSE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                console.log(JSON.stringify(json));
+//                console.log("&&&&&&&&&&&&&&&&RESPONSE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+//                console.log(JSON.stringify(json));
 
                 return json;
             })
@@ -79,8 +79,8 @@ const myApiService = {
         };
         fetch('http://o.ssystems.de/api/user', requestOptions)
             .then((response) => {
-                console.log("User persisted Response : ");
-                console.log(response);
+                //console.log("User persisted Response : ");
+                //console.log(response);
                 return response;
             })
             .catch((error) => {
@@ -89,30 +89,20 @@ const myApiService = {
             });
     },
 
-
-
-
-
-
-
-
-
-
-
-
     persistVoteResultForUser: function (voteId, userid, answer) {
         console.log("Persisting Answer.......");
         const requestOptions = {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.nw72C0uncvYbV8Yc45Qzud4cQGWJFM39EHVelzoaED0',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.wC01CzL9dlurJYgqszJjDIyE0aQ_MPknUIgxrDkzssc',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({vote_id: voteId, user_id: userid, answer: answer})
         };
         fetch('http://o.ssystems.de/api/user_vote', requestOptions)
             .then((response) => {
-                console.log("Answer persisted");
+                //console.log("************************************Answer persisted REsponse***************************************************");
+                //console.log(response);
                 return response;
             })
             .catch((error) => {
@@ -125,7 +115,7 @@ const myApiService = {
         return fetch('http://o.ssystems.de/api/user_vote' + '?&user_id=eq.' + userid, {
             method: 'get',
             headers: new Headers({
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.nw72C0uncvYbV8Yc45Qzud4cQGWJFM39EHVelzoaED0',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.wC01CzL9dlurJYgqszJjDIyE0aQ_MPknUIgxrDkzssc',
                     'Content-Type': 'application/json'
                 }
             )

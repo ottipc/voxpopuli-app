@@ -25,6 +25,12 @@ class Home extends Component {
            voteData: []
        }
     }
+    persistVote(userId, voteId, answer) {
+        console.log("Persisting Vote!!!!")
+        myApiService.persistVoteResultForUser(voteId, userId, answer);
+    }
+
+
 
 
     async fetchVotesAsync() {
@@ -48,33 +54,31 @@ class Home extends Component {
             this.setState({...this.state, isFetching: false});
         }
     };
-    //fetchVotes = this.fetchVotesAsync;
 
-
-
-
-    filterEmptyData(data) {
+    async filterEmptyData(data) {
         let filterData = [];
+        let userVotes = await myApiService.getAllUserVotes(this.state.user_id)
         for(let i = 0; i < data.length; i++) {
             if(data[i].picture_link === "" || data[i].ruling_party_leader === ""){
                 continue;
             }
+            if(this.voteExists(userVotes, data[i])){
+                continue;
+            }
             filterData.push(data[i])
-            //alert(obj);
         }
         return filterData
     }
 
-   /* componentWillMount() {
-        console.log("*************************** component WILL Mount *****************************************************")
-        myApiService.getAllVotes().then(data => {
-            this.setState({voteData: Demo, fields : []})
-            console.log("setting vote data ......")
-            console.log(JSON.stringify(this.state.voteData))
-        })
+    voteExists(userVotes, voteobject) {
+        for (let index = 0; index < userVotes.length; ++index) {
+            let user_vote = userVotes[index];
+            if (user_vote.vote_id == voteobject.id) {
+                return true
+            }
+        }
+        return false;
     }
-*/
-
 
     componentDidMount() {
         console.log('This happens 3rd.');
@@ -131,7 +135,7 @@ class Home extends Component {
                     </View>
 
                     <CardStack
-                        loop={true}
+                        loop={false}
                         verticalSwipe={false}
                         renderNoMoreCards={() => null}
                         ref={swiper => (this.swiper = swiper)}
@@ -145,8 +149,14 @@ class Home extends Component {
                                     state_of_leader={item.state}
                                     matches="0"
                                     actions
-                                    onPressLeft={() => this.swiper.swipeLeft()}
-                                    onPressRight={() => this.swiper.swipeRight()}
+                                    onPressLeft={() => {
+                                        this.swiper.swipeLeft()
+                                        this.persistVote(this.state.user_id, item.id,false)
+                                    }}
+                                    onPressRight={() => {
+                                        this.swiper.swipeRight()
+                                        this.persistVote(this.state.user_id, item.id,true)
+                                    }}
                                 />
                             </Card>
                         ))}
