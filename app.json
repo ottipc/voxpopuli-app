@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Voxpopuli",
+    "icon": "./assets/icons/app-icon.png",
+    "version": "1.0.0",
+    "slug": "voxipo",
+    "orientation": "portrait",
+    "primaryColor": "#000000",
+    "notification": {
+      "icon": "./assets/icons/notification-icon.png",
+      "color": "#000000"
+    },
+    "androidStatusBarColor": "#000000",
+    "loading": {
+      "icon": "./assets/icons/loading-icon.png",
+      "backgroundColor": "#000000",
+      "hideExponentText": true,
+      "splash": {
+        "backgroundColor": "#000000"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.voxipo.voxpopuli"
+    },
+    "android": {
+      "package": "com.voxipo.voxpopuli"
+    }
+  }
+}
