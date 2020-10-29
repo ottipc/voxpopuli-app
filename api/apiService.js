@@ -24,6 +24,28 @@ const myApiService = {
             });
     },
 
+
+    getUserByFireBaseUid: function (firebaseId) {
+        console.log("Now fetching from  Url : " + 'http://o.ssystems.de/api/user' + '?firebase_uid=eq.' + firebaseId)
+        return fetch('http://o.ssystems.de/api/user' + '?firebase_uid=eq.' + firebaseId, {
+            method: 'get',
+            headers: new Headers({
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.wC01CzL9dlurJYgqszJjDIyE0aQ_MPknUIgxrDkzssc',
+                    'Content-Type': 'application/json'
+                }
+            )
+        }).then((response) => response.json())
+            .then((json) => {
+                console.log("&&&&&&&&&&&&&&&&RESPONSE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                console.log(JSON.stringify(json));
+
+                return json;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    },
+
     getAllVotes: function () {
         console.log("Now fetching from  Url : " + 'http://o.ssystems.de/api/vote')
         return fetch('http://o.ssystems.de/api/vote', {
@@ -41,6 +63,40 @@ const myApiService = {
                 console.error(error);
             });
     },
+
+    persistUser: function (aemail, afirebase_uid) {
+        console.log("Persisting User.......");
+        console.log("Email "  + aemail);
+        console.log("Firebase "  + afirebase_uid);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.wC01CzL9dlurJYgqszJjDIyE0aQ_MPknUIgxrDkzssc',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: aemail, firebase_uid: afirebase_uid})
+        };
+        fetch('http://o.ssystems.de/api/user', requestOptions)
+            .then((response) => {
+                console.log("User persisted Response : ");
+                console.log(response);
+                return response;
+            })
+            .catch((error) => {
+                alert(error)
+                console.error(error);
+            });
+    },
+
+
+
+
+
+
+
+
+
 
 
 

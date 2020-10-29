@@ -38,7 +38,6 @@ const CardItem = ({
   return (
       <View style={styles.containerCardItem}>
       {/* IMAGE */}
-      <Text>scheisse</Text>
       <Image source={{
         uri: imageurl,
       }} style={imageStyle} />

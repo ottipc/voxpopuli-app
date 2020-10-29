@@ -13,58 +13,19 @@ import myApiService from '../api/apiService';
 
 class Home extends Component {
 
+
     constructor(props) {
        super(props);
-       console.log("*************************** Constructor *****************************************************")
-       this.state = {
-            voteData: [],
-        }
-        //this.fetchVotesAsync().then(r => console.log(r))
-        /*fetch('http://o.ssystems.de/api/vote', {
-            method: 'get',
-            headers: new Headers({
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.wC01CzL9dlurJYgqszJjDIyE0aQ_MPknUIgxrDkzssc',
-                    'Content-Type': 'application/json'
-                }isFetching: true
-            )
-        }).then(res => res.json())
-            .then(
-                (result) => {
-                    //console.log("Setting items")
-                    //console.log(result)
-                    this.state = {
-                        voteData: Demo,
-                    }
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )*/
-
-
-
-        /*myApiService.getAllVotes().then(data => {
-            this.state = {
-                voteData: Demo,
-            }
-            //console.log("Data in Constructor ......")
-            //console.log(this.state.voteData)
-        })*/
-        //this.voteData = this.voteData.bind(this)
-        //.then(console.log("VoteData : " + this.state.voteData)); // data.message = 'updated message'
-
+       console.log("*************************** Constructor Home *****************************************************")
+       console.log(props.navigation.state.params.user)
+        this.state = {
+           user_id: props.navigation.state.params.user[0].id,
+           user_email: props.navigation.state.params.user[0].email,
+           loading: 'initial',
+           voteData: []
+       }
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timer);
-        this.timer = null;
-    }
 
     async fetchVotesAsync() {
         try {
@@ -76,20 +37,12 @@ class Home extends Component {
                         'Content-Type': 'application/json'
                     }
                 )
-            }).then(res => res.json())
-                .then(
-                    (result) => {
-                        this.setState({voteData: Demo, isFetching: false});
-                    },
-                    // Note: it's important to handle errors here
-                    // instead of a catch() block so that we don't swallow
-                    // exceptions from actual bugs in components.
-                    (error) => {
-                        this.setState({
-                            isLoaded: true,
-                            error
-                        });
-                    })
+            })
+            let votes = await response.json();
+            votes = this.filterEmptyData(votes)
+            //console.log("Votes")
+            //console.log(votes)
+            return votes
         } catch (e) {
             console.log(e);
             this.setState({...this.state, isFetching: false});
@@ -100,14 +53,18 @@ class Home extends Component {
 
 
 
-    /*filterEmptyData(data) {
+    filterEmptyData(data) {
         let filterData = [];
-        for(var i = 0; i < data.length; i++) {
-            var obj = data[i];
+        for(let i = 0; i < data.length; i++) {
+            if(data[i].picture_link === "" || data[i].ruling_party_leader === ""){
+                continue;
+            }
+            filterData.push(data[i])
             //alert(obj);
         }
+        return filterData
     }
-*/
+
    /* componentWillMount() {
         console.log("*************************** component WILL Mount *****************************************************")
         myApiService.getAllVotes().then(data => {
@@ -118,76 +75,45 @@ class Home extends Component {
     }
 */
 
-    componentDidUpdate(){
-        /*if(this.state.voteData != Demo){
-            this.setState({
-                isLoaded: true,
-                voteData: Demo
-            });
-        }*/
-        console.log("*************************** component Did Update *****************************************************")
-
-
-    }
 
     componentDidMount() {
-        this.fetchVotesAsync();
-        //this.timer = setInterval(() => this.fetchVotesAsync(), 5000);
+        console.log('This happens 3rd.');
+
+        this.setState({ loading: 'true' });
+        this.fetchVotesAsync()
+            .then((data) => {
+                console.log('This happens 7th.');
+                //console.log(data);
+                this.setState({
+                    voteData: data,
+                    loading: 'false'
+                });
+            });
     }
 
-    /*componentDidMount() {
-        console.log("*************************** component Did Mount *****************************************************")
-        this.setState({
-            isLoaded: true,
-            voteData: Demo
-        });
-       /* fetch('http://o.ssystems.de/api/vote', {
-            method: 'get',
-            headers: new Headers({
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidm94aXBvX3VzZXIifQ.wC01CzL9dlurJYgqszJjDIyE0aQ_MPknUIgxrDkzssc',
-                    'Content-Type': 'application/json'
-                }
-            )
-        }).then(res => res.json())
-            .then(
-                (result) => {
-                    //console.log("Setting items")
-                    //console.log(result)
-
-                    this.setState({
-                        isLoaded: true,
-                        voteData: Demo
-                    });
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )*/
-            //this.forceUpdate()
-            /*console.log("*************************** component DID Mount *****************************************************")
-            await myApiService.getAllVotes().then(data => {
-                this.setState({voteData: Demo, fields : []})
-                console.log("setting vote data ......")
-            //    console.log(JSON.stringify(this.state.voteData))
-            }).catch(()=>
-            {
-                //...
-            });*/
-        //}
-
     render() {
-            const voteData = this.state.voteData.slice(0,3)
+
             {
                 console.log("----------RENDERING-----------------------------")
                 console.log("----------VOTE DATA IN RENDERING-----------------------------")
-                console.log(voteData)
+            //    console.log(voteData)
             }
+
+            if (this.state.loading === 'initial') {
+            console.log('This happens 2nd - after the class is constructed. You will not see this element because React is still computing changes to the DOM.');
+            return (<Text>Intializing...</Text>);
+        }
+
+
+        if (this.state.loading === 'true') {
+            console.log('This happens 5th - when waiting for data.');
+            return (<Text>Loading...</Text>);
+        }
+
+        if (this.state.voteData === undefined || this.state.voteData.length === 0) {
+            return (<Text>Empty...</Text>);
+        }
+
             return (
 
 
@@ -199,8 +125,9 @@ class Home extends Component {
                 <View style={styles.containerHome}>
                     <View style={styles.top}>
                         <City/>
-                        <Text>voxipo</Text>
+                        <Text>{this.state.user_email}</Text>
                         {/*<Filters />*/}
+
                     </View>
 
                     <CardStack
@@ -209,7 +136,7 @@ class Home extends Component {
                         renderNoMoreCards={() => null}
                         ref={swiper => (this.swiper = swiper)}
                     >
-                        {Demo.map((item, index) => (
+                        {this.state.voteData.map((item, index) => (
                             <Card key={index}>
                                 <CardItem
                                     text={item.ruling_party_leader}

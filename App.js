@@ -2,6 +2,7 @@ import React,{useState, Component} from "react";
 import { Text } from "react-native";
 import styles from "./assets/styles";
 import HomeScreen from "./containers/Home";
+import LoginScreen from "./containers/Login";
 import RegistrationScreen from "./containers/Registration";
 import ProfileScreen from "./containers/Profile";
 import {createStackNavigator} from 'react-navigation-stack';
@@ -14,6 +15,7 @@ YellowBox.ignoreWarnings(['Setting a timer']);
 
 const navigator = createStackNavigator(
 	{
+		Login:LoginScreen,
 		Registration: RegistrationScreen,
 		Home: HomeScreen,
 		Profile: ProfileScreen,

@@ -67,71 +67,61 @@ const styles = StyleSheet.create({
         fontSize: 16
     }
 })
-class Registration extends Component {
+class Login extends Component {
 
-    onFooterLinkPress = () => {
-        this.props.navigation.navigate('Login')
-    }
 
-    onRegisterPress = () => {
-        if (this.state.setPassword !== this.state.setConfirmPassword) {
-            alert("Passwords don't match.")
-            return
+        onFooterLinkPress = () => {
+            this.props.navigation.navigate('Registration')
         }
+
+        onLoginPress = () => {
         firebase
             .auth()
-            .createUserWithEmailAndPassword(this.state.setEmail, this.state.setPassword)
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((response) => {
                 const uid = response.user.uid
-                //console.log(response)
-                const data = {
-                    id: uid,
-                    email:this.state.setEmail
-                }
+                console.log("LOGIN UID : ")
+                myApiService.getUserByFireBaseUid(uid)
+                    .then((json) => {
+                        console.log("From get user Request : ")
+                        console.log(json);
+                        this.props.navigation.navigate('Home', { user: json })
+                    })
+                    .catch((error) => {
+                        alert.error(error);
+                    });
+                        //console.log(user)
                 //const usersRef = firebase.firestore().collection('users')
-                console.log("User persisting in voxipo database")
-
-                myApiService.persistUser(this.state.setEmail, uid)
-                this.props.navigation.navigate('Login', {user: data})
 
                 /*usersRef
                     .doc(uid)
-                    .set(data)
-                    .then(() => {
-                        alert("Navigate")
-                        console.log("Navigate......")
-
-                        //navigation.navigate('Home', {user: data})
+                    .get()
+                    .then(firestoreDocument => {
+                        if (!firestoreDocument.exists) {
+                            alert("User does not exist anymore.")
+                            return;
+                        }
+                        const user = firestoreDocument.data()
                     })
-                    .catch((error) => {
-                        console.log("Error")
-                        console.log(error)
+                    .catch(error => {
                         alert(error)
                     });*/
             })
-            .catch((error) => {
+            .catch(error => {
                 alert(error)
-            });
+            })
     }
 
 
 
-    constructor(props, navigation) {
+    constructor(props) {
         super(props);
         console.ignoredYellowBox = ['Setting a timer'];
-        console.log("*************************** Constructor *****************************************************")
         this.state = {
-            navigation: navigation,
-            voteData: [],
-            fullName: '',
-            setFullName: '',
-            setEmail: '',
-            setPassword: '',
-            confirmPassword: '',
-            setConfirmPassword: ''
-
-
+            email: '',
+            password: '',
         }
+
     }
     render() {
             return (
@@ -144,25 +134,14 @@ class Registration extends Component {
                             style={styles.logo}
                             source={require('../assets/icons/app-icon.png')}
                         />
-                      {/*  <TextInput
-                            style={styles.input}
-                            placeholder='Full Name'
-                            placeholderTextColor="#aaaaaa"
-                            onChangeText={(text) =>  this.setState({
-                                setFullName: text,
-                            })}
-                            value={this.state.setFullName}
-                            underlineColorAndroid="transparent"
-                            autoCapitalize="none"
-                        />*/}
                         <TextInput
                             style={styles.input}
                             placeholder='E-mail'
                             placeholderTextColor="#aaaaaa"
                             onChangeText={(text) =>  this.setState({
-                                setEmail: text,
+                                email: text,
                             })}
-                            value={this.state.setEmail}
+                            value={this.state.email}
                             underlineColorAndroid="transparent"
                             autoCapitalize="none"
                         />
@@ -172,36 +151,23 @@ class Registration extends Component {
                             secureTextEntry
                             placeholder='Password'
                             onChangeText={(text) =>  this.setState({
-                                setPassword: text,
+                                password: text,
                             })}
-                            value={this.state.setPassword}
-                            underlineColorAndroid="transparent"
-                            autoCapitalize="none"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholderTextColor="#aaaaaa"
-                            secureTextEntry
-                            placeholder='Confirm Password'
-                            onChangeText={(text) =>  this.setState({
-                                setConfirmPassword: text,
-                            })}
-                            value={this.state.setConfirmPassword}
+                            value={this.state.password}
                             underlineColorAndroid="transparent"
                             autoCapitalize="none"
                         />
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => this.onRegisterPress()}>
-                            <Text>Create account</Text>
+                            onPress={() => this.onLoginPress()}>
+                            <Text style={styles.buttonTitle}>Log in</Text>
                         </TouchableOpacity>
                         <View style={styles.footerView}>
-                            <Text style={styles.footerText}>Already have an account? <Text onPress={this.onFooterLinkPress} style={styles.footerLink}>Login</Text></Text>
+                            <Text style={styles.footerText}>Don't have an account? <Text onPress={this.onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
                         </View>
                     </KeyboardAwareScrollView>
                 </View>
         );
     }
 };
-
-export default Registration;
+export default Login;
