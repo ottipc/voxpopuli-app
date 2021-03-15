@@ -26,7 +26,7 @@ export default StyleSheet.create({
 		backgroundColor: WHITE,
 		borderRadius: 8,
 		alignItems: "center",
-		margin: 10,
+		margin: 5,
 		shadowOpacity: 0.05,
 		shadowRadius: 10,
 		shadowColor: BLACK,
@@ -45,6 +45,21 @@ export default StyleSheet.create({
 		fontSize: 17
 
 	},
+	countryCardItem: {
+		color: BLACK,
+		textAlign: "center",
+		fontSize: 14,
+		paddingTop: 3
+	},
+
+	licenceTextCardItem: {
+		color: WHITE,
+		textAlign: "center",
+		fontSize: 14,
+		paddingTop: 6
+
+	},
+
 	descriptionCardItem: {
 		color: GRAY,
 		textAlign: "center",

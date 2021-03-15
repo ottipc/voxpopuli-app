@@ -132,7 +132,7 @@ class Login extends Component {
                         keyboardShouldPersistTaps="always">
                         <Image
                             style={styles.logo}
-                            source={require('../assets/icons/app-icon.png')}
+                            source={require('../assets/icons/app-icon.jpg')}
                         />
                         <TextInput
                             style={styles.input}

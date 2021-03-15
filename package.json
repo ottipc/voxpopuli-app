@@ -1,5 +1,5 @@
 {
-  "name": "Voxpopuli",
+  "name": "voxpopuli",
   "description": "Voxipo App",
   "version": "0.2.0",
   "author": "Ottavio Braun",
@@ -11,15 +11,19 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-firebase/app": "^8.4.6",
     "@react-navigation/web": "^1.0.0-alpha.9",
+    "axios": "^0.21.1",
     "expo": "^39.0.0",
     "expo-client": "0.0.0",
     "firebase": "7.9.0",
+    "install": "^0.13.0",
     "joi": "^17.3.0",
     "jsc-android": "^241213.1.0",
     "react": "16.13.1",
+    "react-dom": "^17.0.1",
     "react-native": "^0.59.8",
     "react-native-card-stack-swiper": "^1.1.0",
     "react-native-gesture-handler": "~1.7.0",

@@ -12,6 +12,7 @@ import Icon from "./components/Icon";
 import { YellowBox } from 'react-native';
 import Registration from "./containers/Registration";
 YellowBox.ignoreWarnings(['Setting a timer']);
+import Geolocation from '@react-native-community/geolocation';
 
 const navigator = createStackNavigator(
 	{

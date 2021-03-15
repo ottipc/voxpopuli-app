@@ -2,10 +2,13 @@ import React from 'react';
 import styles from '../assets/styles';
 import { Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Icon from './Icon';
+import {ImageBackground} from "react-native";
 const CardItem = ({
   actions,
-  detail,
+  political_position,
+  country,
   imageurl,
+  licence_text,
   matches,
   state_of_leader,
   text,
@@ -23,6 +26,7 @@ const CardItem = ({
       width: variant ? fullWidth / 2 - 30 : fullWidth - 80,
       height: variant ? 170 : 350,
       margin: variant ? 0 : 20
+
     }
   ];
 
@@ -37,12 +41,25 @@ const CardItem = ({
 
   return (
       <View style={styles.containerCardItem}>
-      {/* IMAGE */}
-      <Image source={{
-        uri: imageurl,
-      }} style={imageStyle} />
 
-
+        {/* IMAGE */}
+        <ImageBackground
+            source={{ uri: imageurl }}
+            style={{
+              height: variant ? 170 : 350,
+              width: variant ? fullWidth / 2 - 30 : fullWidth - 80,
+              position: 'relative', // because it's parent
+              margin: variant ? 0 : 20,
+              top: 0,
+              left: 2
+            }}
+        >
+          <Text
+              style={styles.licenceTextCardItem}
+          >
+          photo {imageurl} by (name of photographer) / CC BY (link)
+          </Text>
+        </ImageBackground>
         <View style={styles.matchesCardItem}>
           <Text style={styles.matchesTextCardItem}>
             {text}
@@ -51,11 +68,11 @@ const CardItem = ({
 
         <Text style={styles.stateCardItem}>{state_of_leader}</Text>
 
-      {/* TEXT */}
-      {/*<Text style={textStyle}>{text}</Text>*/}
+      {/* Country */}
+      <Text style={styles.countryCardItem}>{country}</Text>
 
-      {/* DESCRIPTION */}
-      <Text style={styles.descriptionCardItem}>{detail}</Text>
+      {/* Political Position */}
+      <Text style={styles.descriptionCardItem}>{political_position}</Text>
 
 
 
